@@ -34,6 +34,13 @@ namespace Develhope.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpGet]
+        [Route("{DeliveyDate}")]
+        public async Task<List<ProjectListDto>> GetByDeliveryDateAsync(DateTime DeliveryDate)
+        {
+            return await _projectService.GetDeliveryDate(DeliveryDate);
+        }
+
         [HttpPost]
         public async Task CretateAsync([FromBody] Project project)
         {

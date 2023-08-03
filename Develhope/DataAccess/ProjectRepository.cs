@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using Develhope.DataAccess.Interfaces;
 using Develhope.Models;
 using Develhope.Shared;
@@ -11,9 +12,16 @@ namespace Develhope.DataAccess
     {
         private static readonly string _PROJECT_DATA_PATH = Constants.DATA_PATH + "projects.json";
 
-        public Task CreateAsync(Project item)
+        private JsonSerializerOptions options = new()
         {
-            throw new NotImplementedException();
+            PropertyNameCaseInsensitive = true,
+        };
+
+        public async Task CreateAsync(Project item)
+        {
+            var allProject = await GetAllAsync();
+            allProject.Add(item);
+            
         }
 
         public Task DeleteByIdAsync(int id)
@@ -21,14 +29,22 @@ namespace Develhope.DataAccess
             throw new NotImplementedException();
         }
 
-        public Task<List<Project>> GetAllAsync()
+        public async Task<List<Project>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var file = await File.ReadAllTextAsync(_PROJECT_DATA_PATH);
+            return JsonSerializer.Deserialize<List<Project>>(file, options)?? new List<Project>();
+
         }
 
-        public Task<Project> GetByIdAsync(int id)
+        public async Task<Project> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var file = await File.ReadAllTextAsync(_PROJECT_DATA_PATH + id);
+            return JsonSerializer.Deserialize<Project>(file,options)?? new Project();
+        }
+        public async Task<List<Project>> GetByDeliveryDateAsync(DateTime DeliveryDate)
+        {
+            var file = await File.ReadAllTextAsync(_PROJECT_DATA_PATH + DeliveryDate);
+            return JsonSerializer.Deserialize<List<Project>>(file, options);
         }
 
         public Task UpdateAsync(Project item)

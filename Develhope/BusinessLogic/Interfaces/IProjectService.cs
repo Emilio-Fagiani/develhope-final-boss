@@ -11,5 +11,6 @@ namespace Develhope.BusinessLogic.Interfaces
     {
         Task<List<ProjectListDto>> GetAllAsync();
         Task CreateAsync(Project project);
+        Task<List<ProjectListDto>> GetDeliveryDate(DateTime DeliveryDate);
     }
 }

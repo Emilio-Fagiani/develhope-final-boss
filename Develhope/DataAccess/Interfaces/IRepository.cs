@@ -1,3 +1,4 @@
+using Develhope.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace Develhope.DataAccess.Interfaces
         Task CreateAsync(T item);
         Task UpdateAsync(T item);
         Task DeleteByIdAsync(int id);
+        Task <List<Project>> GetByDeliveryDateAsync(DateTime deliveryDate);
     }
 }
